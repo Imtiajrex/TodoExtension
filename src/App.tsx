@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import { Container } from "@mantine/core";
+import { useState } from "react";
+import List from "./components/List";
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [data, setData] = useState([
+		{ name: "Shuvo", id: "sdlkfjsliwe" },
+		{ name: "Imtiaj", id: "qwesdfsv" },
+		{ name: "Suhana", id: "weryhfbd234" },
+		{ name: "Roger", id: "sdlkfjslsfdbs4whiwe" },
+	]);
+
+	return (
+		<div className="App">
+			<Container mt={"lg"}>
+				<List data={data} />
+			</Container>
+		</div>
+	);
 }
 
 export default App;
