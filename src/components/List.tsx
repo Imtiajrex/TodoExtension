@@ -1,9 +1,34 @@
-import { createStyles, Text } from "@mantine/core";
-import { useListState } from "@mantine/hooks";
+import { createStyles, Text, UnstyledButton } from "@mantine/core";
+import { UseListStateHandlers } from "@mantine/hooks";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { IconGripVertical } from "@tabler/icons";
+import { IconGripVertical, IconTrash, IconX } from "@tabler/icons";
+import { dataType } from "../App";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _params, getRef) => ({
+	actions: {
+		marginLeft: "auto",
+		display: "flex",
+	},
+	action: {
+		ref: getRef("action"),
+		opacity: 0,
+		transform: "scale(0)",
+		transition: "all 0.1s ease-in",
+		marginRight: 5,
+		[`&:nth-child(1)`]: {
+			[`&:hover`]: {
+				color: theme.colors.red[6],
+				transform: "scale(1.2)",
+			},
+		},
+		[`&:nth-child(2)`]: {
+			[`&:hover`]: {
+				color: theme.colors.indigo[6],
+				transform: "scale(1.2)",
+			},
+		},
+	},
+
 	item: {
 		display: "flex",
 		alignItems: "center",
@@ -16,8 +41,11 @@ const useStyles = createStyles((theme) => ({
 		backgroundColor:
 			theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.white,
 		marginBottom: theme.spacing.sm,
+		[`&:hover .${getRef("action")}`]: {
+			opacity: 1,
+			transform: "scale(1)",
+		},
 	},
-
 	itemDragging: {
 		boxShadow: theme.shadows.sm,
 	},
@@ -43,16 +71,18 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-interface ListProps {
-	data: {
-		name: string;
-		id: string;
-	}[];
-}
-
-export default function List({ data }: ListProps) {
+export default function List({
+	state,
+	handlers,
+	handleDelete,
+	handleCrossOff,
+}: {
+	state: dataType[];
+	handlers: UseListStateHandlers<dataType>;
+	handleDelete: (index: number) => void;
+	handleCrossOff: (index: number) => void;
+}) {
 	const { classes, cx } = useStyles();
-	const [state, handlers] = useListState(data);
 
 	const items = state.map((item, index) => {
 		return (
@@ -70,6 +100,20 @@ export default function List({ data }: ListProps) {
 						</div>
 						<div>
 							<Text>{item.name}</Text>
+						</div>
+						<div className={classes.actions}>
+							<UnstyledButton
+								className={classes.action}
+								onClick={() => handleDelete(index)}
+							>
+								<IconTrash size={19} />
+							</UnstyledButton>
+							<UnstyledButton
+								className={classes.action}
+								onClick={() => handleCrossOff(index)}
+							>
+								<IconX size={19} />
+							</UnstyledButton>
 						</div>
 					</div>
 				)}

@@ -3,21 +3,14 @@
 	"name": "StrictDo",
 	"description": "A to do extension that reminds you to do things",
 	"version": "1.0",
-	"icons": [
-		{
-			"src": "favicon.ico"
-		},
-		{
-			"src": "logo192.png"
-		},
-		{
-			"src": "logo512.png"
-		}
-	],
-	"start_url": ".",
-	"display": "standalone",
-	"theme_color": "#000000",
-	"background_color": "#ffffff",
+	"browser_action": {
+		"default_popup": "index.html"
+	},
+	"icons": {
+		"16": "favicon.ico",
+		"48": "favicon.ico",
+		"128": "logo192.png"
+	},
 	"background": {
 		"service_worker": "background.js"
 	},
