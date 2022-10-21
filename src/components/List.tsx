@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { IconGripVertical, IconTrash, IconX } from "@tabler/icons";
 import { dataType } from "../App";
 
-const useStyles = createStyles((theme, _params, getRef) => ({
+export const useStyles = createStyles((theme, _params, getRef) => ({
 	actions: {
 		marginLeft: "auto",
 		display: "flex",
@@ -15,13 +15,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 		transform: "scale(0)",
 		transition: "all 0.1s ease-in",
 		marginRight: 5,
-		[`&:nth-child(1)`]: {
+		[`&:nth-of-type(1)`]: {
 			[`&:hover`]: {
 				color: theme.colors.red[6],
 				transform: "scale(1.2)",
 			},
 		},
-		[`&:nth-child(2)`]: {
+		[`&:nth-of-type(2)`]: {
 			[`&:hover`]: {
 				color: theme.colors.indigo[6],
 				transform: "scale(1.2)",
@@ -99,7 +99,7 @@ export default function List({
 							<IconGripVertical size={18} stroke={1.5} />
 						</div>
 						<div>
-							<Text>{item.name}</Text>
+							<Text>{item.task}</Text>
 						</div>
 						<div className={classes.actions}>
 							<UnstyledButton

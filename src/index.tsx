@@ -2,6 +2,7 @@ import { MantineProvider } from "@mantine/core";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import ChromeStorage from "./ChromeStorage";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(
@@ -16,7 +17,7 @@ root.render(
 				colorScheme: "dark",
 			}}
 		>
-			<App />
+			<ChromeStorage />
 		</MantineProvider>
 	</React.Fragment>
 );

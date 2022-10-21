@@ -1,30 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Center, ScrollArea } from "@mantine/core";
-import { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import List from "./components/List";
 import { useForm } from "@mantine/form";
 import Form from "./components/Form";
-import { useListState } from "@mantine/hooks";
-import { useChromeStorageSync } from "use-chrome-storage";
+import { UseListStateHandlers } from "@mantine/hooks";
+import CrossedList from "./components/CrossedList";
 export type dataType = {
-	name: string;
+	task: string;
 	id: string;
 };
-function App() {
-	const [data, setData, isPersistent, error] = useChromeStorageSync("data", []);
-	const [state, handlers] = useListState(data as dataType[]);
+function App({
+	crossedData,
+	setCrossedData,
+	setData,
+	state,
+	handlers,
+}: {
+	crossedData: dataType[];
+	setCrossedData: React.Dispatch<React.SetStateAction<dataType[]>>;
+	setData: React.Dispatch<React.SetStateAction<dataType[]>>;
+	state: dataType[];
+	handlers: UseListStateHandlers<dataType>;
+}) {
 	const form = useForm({
 		initialValues: {
 			text: "",
 		},
 	});
-	if (error) {
-		console.log(error);
-		return <></>;
-	}
+	// console.log(error);
 	const handleSubmit = (values: { text: string }) => {
 		const newItem = {
-			name: values.text,
+			task: values.text,
 			id: Math.random().toString(),
 		};
 		handlers.insert(0, newItem);
@@ -32,10 +39,18 @@ function App() {
 		form.reset();
 	};
 	const handleDelete = (index: number) => {
-		handlers.remove(index);
 		setData(state.filter((item) => item.id !== state[index].id));
+		handlers.remove(index);
 	};
-	const handleCrossOff = (index: number) => {};
+	const handleCrossOff = (index: number) => {
+		setCrossedData([...crossedData, state[index]]);
+		handleDelete(index);
+	};
+	const handleCrossDelete = (index: number) => {
+		setCrossedData(
+			crossedData.filter((item) => item.id !== crossedData[index].id)
+		);
+	};
 	return (
 		<Center>
 			<div
@@ -52,6 +67,10 @@ function App() {
 						handlers={handlers}
 						handleCrossOff={handleCrossOff}
 						handleDelete={handleDelete}
+					/>
+					<CrossedList
+						crossedData={crossedData}
+						handleCrossedDelete={handleCrossDelete}
 					/>
 				</ScrollArea>
 				<Form form={form} handleSubmit={handleSubmit} />
