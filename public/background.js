@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
-	chrome.storage.sync.get({ key: "data" }, (result) => {
+	chrome.storage.sync.get("data", (result) => {
 		const taskListItem = result.data;
 		console.log("taskListItem", taskListItem);
 		if (taskListItem) {
