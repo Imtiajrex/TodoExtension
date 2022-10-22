@@ -3,7 +3,7 @@ import { Center, ScrollArea } from "@mantine/core";
 import React, { useEffect, useRef } from "react";
 import List from "./components/List";
 import { useForm } from "@mantine/form";
-import Form from "./components/Form";
+import Form, { formType } from "./components/Form";
 import { UseListStateHandlers } from "@mantine/hooks";
 import CrossedList from "./components/CrossedList";
 export type dataType = {
@@ -12,45 +12,24 @@ export type dataType = {
 };
 function App({
 	crossedData,
-	setCrossedData,
-	setData,
 	state,
 	handlers,
+	form,
+	handleCrossDelete,
+	handleCrossOff,
+	handleDelete,
+	handleSubmit,
 }: {
 	crossedData: dataType[];
 	setCrossedData: React.Dispatch<React.SetStateAction<dataType[]>>;
-	setData: React.Dispatch<React.SetStateAction<dataType[]>>;
 	state: dataType[];
 	handlers: UseListStateHandlers<dataType>;
+	form: formType;
+	handleDelete: (index: number) => void;
+	handleCrossOff: (index: number) => void;
+	handleCrossDelete: (index: number) => void;
+	handleSubmit: (values: { text: string }) => void;
 }) {
-	const form = useForm({
-		initialValues: {
-			text: "",
-		},
-	});
-	// console.log(error);
-	const handleSubmit = (values: { text: string }) => {
-		const newItem = {
-			task: values.text,
-			id: Math.random().toString(),
-		};
-		handlers.insert(0, newItem);
-		setData([newItem, ...state]);
-		form.reset();
-	};
-	const handleDelete = (index: number) => {
-		setData(state.filter((item) => item.id !== state[index].id));
-		handlers.remove(index);
-	};
-	const handleCrossOff = (index: number) => {
-		setCrossedData([...crossedData, state[index]]);
-		handleDelete(index);
-	};
-	const handleCrossDelete = (index: number) => {
-		setCrossedData(
-			crossedData.filter((item) => item.id !== crossedData[index].id)
-		);
-	};
 	return (
 		<Center>
 			<div

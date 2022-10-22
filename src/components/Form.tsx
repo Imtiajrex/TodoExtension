@@ -7,18 +7,19 @@ const useStyles = createStyles((theme) => ({
 		backgroundColor: theme.colors.dark[7],
 	},
 }));
+export type formType = UseFormReturnType<
+	{
+		text: string;
+	},
+	(values: { text: string }) => {
+		text: string;
+	}
+>;
 export default function Form({
 	form,
 	handleSubmit,
 }: {
-	form: UseFormReturnType<
-		{
-			text: string;
-		},
-		(values: { text: string }) => {
-			text: string;
-		}
-	>;
+	form: formType;
 	handleSubmit: (e: any) => void;
 }) {
 	const { classes } = useStyles();
