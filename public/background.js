@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 chrome.runtime.onInstalled.addListener(() => {
 	chrome.alarms.get("periodic", (a) => {
-		if (!a) chrome.alarms.create("periodic", { when: Date.now() + 1000 });
+		if (!a) chrome.alarms.create("periodic", { periodInMinutes: 60 });
 	});
 });
 
