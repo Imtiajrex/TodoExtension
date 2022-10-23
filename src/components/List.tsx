@@ -71,14 +71,17 @@ export const useStyles = createStyles((theme, _params, getRef) => ({
 	},
 }));
 
+export type reorderArgsType = { from: number; to: number };
 export default function List({
 	state,
 	handlers,
 	handleDelete,
 	handleCrossOff,
+	reorder,
 }: {
 	state: dataType[];
 	handlers: UseListStateHandlers<dataType>;
+	reorder: (args: reorderArgsType) => void;
 	handleDelete: (index: number) => void;
 	handleCrossOff: (index: number) => void;
 }) {
@@ -124,7 +127,7 @@ export default function List({
 	return (
 		<DragDropContext
 			onDragEnd={({ destination, source }: any) =>
-				handlers.reorder({ from: source.index, to: destination?.index || 0 })
+				reorder({ from: source.index, to: destination?.index || 0 })
 			}
 		>
 			<Droppable droppableId="dnd-list" direction="vertical">
