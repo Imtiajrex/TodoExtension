@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 import { useListState, useLocalStorage } from "@mantine/hooks";
 import App from "./App";
-import { useEffect } from "react";
-import { useChromeStorageLocal } from "use-chrome-storage";
+import { useEffect, useRef } from "react";
 import { useForm } from "@mantine/form";
 export default function ChromeStorage() {
 	const [crossedData, setCrossedData] = useLocalStorage({
