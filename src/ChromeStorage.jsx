@@ -9,6 +9,7 @@ export default function ChromeStorage() {
 		defaultValue: [],
 		key: "crossed-data",
 	});
+	const update = useRef(false);
 	const [state, handlers] = useListState([]);
 	useEffect(() => {
 		chrome.storage.sync.get("data", function (result) {
@@ -17,6 +18,12 @@ export default function ChromeStorage() {
 			console.log("Got data ", result);
 		});
 	}, []);
+	useEffect(() => {
+		if (update.current) {
+			update.current = false;
+			chrome.storage.sync.set({ data: JSON.stringify(state) }, function () {});
+		}
+	}, [state]);
 
 	const form = useForm({
 		initialValues: {
@@ -49,6 +56,10 @@ export default function ChromeStorage() {
 			crossedData.filter((item) => item.id !== crossedData[index].id)
 		);
 	};
+	const reorder = ({ from, to }) => {
+		update.current = true;
+		handlers.reorder({ from, to });
+	};
 	return (
 		<>
 			<App
@@ -61,6 +72,7 @@ export default function ChromeStorage() {
 				handleSubmit={handleSubmit}
 				handleCrossOff={handleCrossOff}
 				handleDelete={handleDelete}
+				reorder={reorder}
 			/>
 		</>
 	);

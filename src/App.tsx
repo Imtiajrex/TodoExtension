@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Center, ScrollArea } from "@mantine/core";
 import React, { useEffect, useRef } from "react";
-import List from "./components/List";
+import List, { reorderArgsType } from "./components/List";
 import { useForm } from "@mantine/form";
 import Form, { formType } from "./components/Form";
 import { UseListStateHandlers } from "@mantine/hooks";
@@ -19,6 +19,7 @@ function App({
 	handleCrossOff,
 	handleDelete,
 	handleSubmit,
+	reorder,
 }: {
 	crossedData: dataType[];
 	setCrossedData: React.Dispatch<React.SetStateAction<dataType[]>>;
@@ -29,6 +30,7 @@ function App({
 	handleCrossOff: (index: number) => void;
 	handleCrossDelete: (index: number) => void;
 	handleSubmit: (values: { text: string }) => void;
+	reorder: (args: reorderArgsType) => void;
 }) {
 	return (
 		<Center>
@@ -46,6 +48,7 @@ function App({
 						handlers={handlers}
 						handleCrossOff={handleCrossOff}
 						handleDelete={handleDelete}
+						reorder={reorder}
 					/>
 					<CrossedList
 						crossedData={crossedData}
